@@ -11,7 +11,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
-/* ═══════════ DESIGN TOKENS ═══════════ */
 :root {
   --bg: #07060b;
   --surface: rgba(255,255,255,.04);
@@ -29,8 +28,6 @@
   --font: 'Inter', system-ui, -apple-system, sans-serif;
   --font-display: 'Space Grotesk', var(--font);
 }
-
-/* ═══════════ RESET & BASE ═══════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
@@ -41,14 +38,6 @@ body {
   padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
 }
 a { text-decoration: none; color: inherit; }
-
-/* ═══════════ SCROLL PROGRESS BAR ═══════════ */
-.scroll-progress {
-  position: fixed; top: 0; left: 0; height: 3px; z-index: 100;
-  background: linear-gradient(90deg, var(--ember), var(--gold));
-  width: 0%; transition: width .1s linear;
-  box-shadow: 0 0 10px rgba(255,90,31,.5);
-}
 
 /* ═══════════ AMBIENT BACKGROUND ═══════════ */
 .ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
@@ -72,30 +61,6 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 2; point
 
 /* ═══════════ LAYOUT ═══════════ */
 main { position: relative; z-index: 3; max-width: 440px; margin: 0 auto; padding: 36px 16px 52px; }
-
-/* ═══════════ SCROLL REVEAL ═══════════ */
-.reveal {
-  opacity: 0; transform: translateY(24px);
-  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* ═══════════ GREETING ═══════════ */
-.greeting {
-  text-align: center; font-size: .82rem; color: var(--muted);
-  margin-bottom: 6px; letter-spacing: .02em;
-  opacity: 0; animation: fadeSlideUp .7s ease .1s forwards;
-}
-.greeting .wave { display: inline-block; animation: wave 2.5s ease-in-out infinite; transform-origin: 70% 70%; }
-@keyframes wave {
-  0%   { transform: rotate(0); }
-  10%  { transform: rotate(14deg); }
-  20%  { transform: rotate(-8deg); }
-  30%  { transform: rotate(14deg); }
-  40%  { transform: rotate(-4deg); }
-  50%  { transform: rotate(10deg); }
-  60%,100% { transform: rotate(0); }
-}
 
 /* ═══════════ HERO ═══════════ */
 .hero-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 8px; }
@@ -126,14 +91,12 @@ main { position: relative; z-index: 3; max-width: 440px; margin: 0 auto; padding
 }
 .tagline .cursor {
   display: inline-block; width: 2px; height: 1.1em; background: var(--ember);
-  margin-left: 2px; vertical-align: text-bottom;
-  animation: blink .7s step-end infinite;
+  margin-left: 2px; vertical-align: text-bottom; animation: blink .7s step-end infinite;
 }
 @keyframes blink { 50% { opacity: 0; } }
 .tagline-line {
   display: block; width: 48px; height: 2.5px; border-radius: 2px;
-  background: linear-gradient(90deg, var(--ember), var(--gold));
-  margin: 10px auto 0;
+  background: linear-gradient(90deg, var(--ember), var(--gold)); margin: 10px auto 0;
 }
 .location {
   display: flex; align-items: center; gap: 5px;
@@ -153,8 +116,7 @@ main { position: relative; z-index: 3; max-width: 440px; margin: 0 auto; padding
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #6b6075; flex-shrink: 0; }
 .status-pill.open { color: var(--cream); }
 .status-pill.open .status-dot {
-  background: var(--wa);
-  box-shadow: 0 0 0 0 rgba(37,211,102,.5);
+  background: var(--wa); box-shadow: 0 0 0 0 rgba(37,211,102,.5);
   animation: livePulse 2s ease-out infinite;
 }
 @keyframes livePulse { 0% { box-shadow: 0 0 0 0 rgba(37,211,102,.5); } 100% { box-shadow: 0 0 0 10px rgba(37,211,102,0); } }
@@ -199,8 +161,7 @@ main { position: relative; z-index: 3; max-width: 440px; margin: 0 auto; padding
   background: var(--surface); border: 1px solid var(--border);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   font-weight: 600; font-size: .92rem;
-  transition: transform .2s, border-color .25s, background .25s, box-shadow .25s;
-  cursor: pointer;
+  transition: transform .2s, border-color .25s, background .25s, box-shadow .25s; cursor: pointer;
 }
 .card::before {
   content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .25s;
@@ -226,7 +187,7 @@ main { position: relative; z-index: 3; max-width: 440px; margin: 0 auto; padding
 .card.review-card .card-icon { background: rgba(255,176,32,.18); }
 .card.review-card:hover { border-color: rgba(255,176,32,.6); box-shadow: 0 8px 28px -8px rgba(255,176,32,.25); }
 
-/* ── Copy tooltip ── */
+/* Copy hint */
 .card .copy-hint {
   position: absolute; right: 14px; font-size: .72rem; font-weight: 500;
   color: var(--muted); opacity: 0; transition: opacity .2s;
@@ -235,98 +196,11 @@ main { position: relative; z-index: 3; max-width: 440px; margin: 0 auto; padding
 .card .copy-hint svg { width: 12px; height: 12px; stroke: var(--muted); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .card:hover .copy-hint { opacity: 1; }
 
-/* ═══════════ SERVICES SECTION ═══════════ */
-.section-label {
-  font-family: var(--font-display); font-size: .72rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .12em; color: var(--muted);
-  margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
-}
-.section-label::after {
-  content: ''; flex: 1; height: 1px;
-  background: linear-gradient(90deg, var(--border), transparent);
-}
-.services-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-}
-.service-card {
-  padding: 16px; border-radius: var(--radius-sm);
-  background: var(--surface); border: 1px solid var(--border);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  transition: transform .2s, border-color .25s, background .25s, box-shadow .25s;
-}
-.service-card:hover {
-  border-color: var(--border-hover); background: var(--surface-hover);
-  transform: translateY(-2px); box-shadow: 0 8px 28px -8px rgba(255,90,31,.2);
-}
-.service-card .s-emoji { font-size: 1.5rem; margin-bottom: 8px; display: block; }
-.service-card .s-name { font-weight: 700; font-size: .88rem; margin-bottom: 2px; }
-.service-card .s-desc { font-size: .76rem; color: var(--muted); line-height: 1.45; }
-/* featured (full width) */
-.service-card.featured {
-  grid-column: 1 / -1; display: flex; align-items: center; gap: 14px;
-  padding: 18px 20px;
-  background: linear-gradient(135deg, rgba(255,90,31,.08), rgba(255,176,32,.04));
-  border-color: rgba(255,90,31,.2);
-}
-.service-card.featured .s-emoji { font-size: 1.8rem; margin-bottom: 0; }
-
-/* ═══════════ STATS ═══════════ */
-.stats-row {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-  margin-top: 10px;
-}
-.stat {
-  text-align: center; padding: 16px 8px;
-  border-radius: var(--radius-sm);
-  background: var(--surface); border: 1px solid var(--border);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-}
-.stat .stat-num {
-  font-family: var(--font-display); font-size: 1.5rem; font-weight: 700;
-  background: linear-gradient(135deg, var(--ember), var(--gold));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.stat .stat-label { font-size: .7rem; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: .06em; }
-
-/* ═══════════ TESTIMONIALS ═══════════ */
-.testimonial-wrap {
-  position: relative; overflow: hidden;
-  padding: 20px; border-radius: var(--radius);
-  background: linear-gradient(135deg, rgba(255,90,31,.06), rgba(255,176,32,.03));
-  border: 1px solid rgba(255,90,31,.12);
-  min-height: 120px;
-}
-.testimonial-slide {
-  opacity: 0; transform: translateX(20px);
-  transition: opacity .5s ease, transform .5s ease;
-  position: absolute; inset: 20px;
-}
-.testimonial-slide.active {
-  opacity: 1; transform: translateX(0); position: relative;
-}
-.testimonial-slide .t-quote {
-  font-size: .88rem; font-style: italic; color: var(--cream); line-height: 1.6;
-  margin-bottom: 10px;
-}
-.testimonial-slide .t-quote::before { content: '"'; color: var(--ember); font-size: 1.4rem; font-weight: 800; margin-right: 2px; }
-.testimonial-slide .t-quote::after  { content: '"'; color: var(--ember); font-size: 1.4rem; font-weight: 800; margin-left: 2px; }
-.testimonial-slide .t-author { font-size: .78rem; color: var(--muted); font-weight: 600; }
-.testimonial-slide .t-author span { color: var(--gold); }
-.testimonial-dots {
-  display: flex; justify-content: center; gap: 6px; margin-top: 12px;
-}
-.testimonial-dots button {
-  width: 7px; height: 7px; border-radius: 50%; border: none;
-  background: rgba(255,255,255,.2); cursor: pointer; padding: 0;
-  transition: background .3s, transform .3s;
-}
-.testimonial-dots button.active {
-  background: var(--ember); transform: scale(1.3);
-}
-
 /* ═══════════ SOCIALS ═══════════ */
-.socials { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.socials {
+  margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  opacity: 0; animation: fadeSlideUp .7s ease 1.05s forwards;
+}
 .social-card {
   display: flex; align-items: center; gap: 10px;
   padding: 12px 14px; border-radius: var(--radius-sm);
@@ -345,9 +219,10 @@ main { position: relative; z-index: 3; max-width: 440px; margin: 0 auto; padding
 }
 .social-card .s-icon svg { width: 16px; height: 16px; fill: none; stroke: var(--gold); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-/* ═══════════ SHARE & SAVE BUTTONS ═══════════ */
+/* ═══════════ SHARE & SAVE ═══════════ */
 .action-row {
-  margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  opacity: 0; animation: fadeSlideUp .7s ease 1.15s forwards;
 }
 .action-btn {
   padding: 13px; display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -364,7 +239,7 @@ main { position: relative; z-index: 3; max-width: 440px; margin: 0 auto; padding
 .action-btn:hover svg { stroke: var(--ember-light); }
 .action-btn:active { transform: scale(.97); }
 
-/* ═══════════ TOAST NOTIFICATION ═══════════ */
+/* ═══════════ TOAST ═══════════ */
 .toast {
   position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
   padding: 10px 22px; border-radius: 999px; z-index: 200;
@@ -379,8 +254,8 @@ main { position: relative; z-index: 3; max-width: 440px; margin: 0 auto; padding
 /* ═══════════ BACK TO TOP ═══════════ */
 .back-top {
   position: fixed; bottom: 24px; right: 20px; z-index: 50;
-  width: 42px; height: 42px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--surface); border: 1px solid var(--border);
+  width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--border); cursor: pointer;
+  background: var(--surface);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   display: grid; place-items: center;
   opacity: 0; transform: translateY(16px); pointer-events: none;
@@ -391,37 +266,24 @@ main { position: relative; z-index: 3; max-width: 440px; margin: 0 auto; padding
 .back-top svg { width: 18px; height: 18px; fill: none; stroke: var(--cream); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ═══════════ FOOTER ═══════════ */
-footer { margin-top: 28px; text-align: center; color: #5a5265; font-size: .76rem; }
+footer { margin-top: 28px; text-align: center; color: #5a5265; font-size: .76rem;
+  opacity: 0; animation: fadeSlideUp .7s ease 1.25s forwards; }
 .made-with { margin-top: 4px; font-size: .72rem; color: #3f3850; }
 .made-with span { color: var(--ember); }
 
-/* ═══════════ DIVIDER ═══════════ */
-.divider {
-  width: 100%; height: 1px; margin: 24px 0;
-  background: linear-gradient(90deg, transparent, var(--border), transparent);
-}
-
-/* ═══════════ ANIMATIONS ═══════════ */
 @keyframes fadeSlideUp {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
-/* ═══════════ A11Y ═══════════ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0s !important; transition-duration: 0s !important; }
   .orb-1, .orb-2, .orb-3 { opacity: 1; animation: none !important; }
-  .reveal { opacity: 1; transform: none; }
 }
 @media (min-width: 500px) { main { padding-top: 56px; } }
 </style>
 </head>
 <body>
 
-<!-- Scroll progress bar -->
-<div class="scroll-progress" id="scrollBar"></div>
-
-<!-- Ambient background -->
 <div class="ambient">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
@@ -429,20 +291,12 @@ footer { margin-top: 28px; text-align: center; color: #5a5265; font-size: .76rem
 </div>
 <div class="grain"></div>
 <canvas id="embers" aria-hidden="true"></canvas>
-
-<!-- Toast -->
 <div class="toast" id="toast"></div>
-
-<!-- Back to top -->
 <button class="back-top" id="backTop" aria-label="Back to top">
   <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
 
 <main>
-  <!-- ─── GREETING ─── -->
-  <p class="greeting" id="greeting"></p>
-
-  <!-- ─── HERO ─── -->
   <section class="hero-wrap" id="stage">
     <div class="logo-container">
       <div class="logo-ring"></div>
@@ -452,7 +306,7 @@ footer { margin-top: 28px; text-align: center; color: #5a5265; font-size: .76rem
     <h1 class="wordmark"><img src="logo-wordmark.png" alt="AgniGrow" width="900" height="100"></h1>
     <p class="tagline" id="tagline"><span class="cursor"></span></p>
     <span class="tagline-line"></span>
-    <p class="location" id="location">
+    <p class="location">
       <svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
       <span id="locText"></span>
     </p>
@@ -462,44 +316,11 @@ footer { margin-top: 28px; text-align: center; color: #5a5265; font-size: .76rem
     </div>
   </section>
 
-  <!-- ─── MAIN CTA ─── -->
   <div class="actions" id="main-actions"></div>
-
-  <!-- ─── BENTO GRID ─── -->
   <div class="bento" id="bento"></div>
-
-  <!-- ─── SOCIALS ─── -->
   <div class="socials" id="social"></div>
 
-  <div class="divider"></div>
-
-  <!-- ─── SERVICES ─── -->
-  <section class="reveal" id="services-section">
-    <div class="section-label">What We Do</div>
-    <div class="services-grid" id="services"></div>
-  </section>
-
-  <div class="divider reveal"></div>
-
-  <!-- ─── STATS ─── -->
-  <section class="reveal" id="stats-section">
-    <div class="section-label">Our Impact</div>
-    <div class="stats-row" id="stats"></div>
-  </section>
-
-  <div class="divider reveal"></div>
-
-  <!-- ─── TESTIMONIALS ─── -->
-  <section class="reveal" id="testimonials-section">
-    <div class="section-label">Client Love</div>
-    <div class="testimonial-wrap" id="testimonials"></div>
-    <div class="testimonial-dots" id="dots"></div>
-  </section>
-
-  <div class="divider reveal"></div>
-
-  <!-- ─── SHARE & SAVE ─── -->
-  <div class="action-row reveal">
+  <div class="action-row">
     <button class="action-btn" id="share" type="button">
       <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
       Share
@@ -510,8 +331,8 @@ footer { margin-top: 28px; text-align: center; color: #5a5265; font-size: .76rem
     </button>
   </div>
 
-  <footer id="foot" class="reveal"></footer>
-  <p class="made-with reveal">Built with <span>🔥</span> by AgniGrow</p>
+  <footer id="foot"></footer>
+  <p class="made-with">Built with <span>🔥</span> by AgniGrow</p>
 </main>
 
 <script>
@@ -525,41 +346,16 @@ const BIZ = {
   whatsappMessage: "Hi AgniGrow, I saw your card and want to know more.",
   email: "info@agnigrow.in",
   website: "https://agnigrow.in",
-  instagram: "",
+  instagram: "https://www.instagram.com/agnigrow?bqrl=MWRydGp5b3U3N3l5Nw==",
   linkedin: "",
   facebook: "",
   youtube: "",
-  maps: "",
-  review: "",
-  hours: { open: 9, close: 19, closedDay: 0 },
-
-  /* ── Services (emoji, name, description) ── */
-  services: [
-    { emoji: "🌐", name: "Web Development", desc: "Modern, responsive websites that convert visitors into customers", featured: true },
-    { emoji: "🎨", name: "Branding", desc: "Logos, identity & visual design" },
-    { emoji: "⚡", name: "Automation", desc: "Streamline your workflows" },
-    { emoji: "🛒", name: "E-Commerce", desc: "Online stores that sell 24/7" },
-    { emoji: "💌", name: "Digital Invitations", desc: "Beautiful e-invites for every occasion" },
-    { emoji: "📱", name: "Social Media", desc: "Content & strategy that grows" }
-  ],
-
-  /* ── Stats ── */
-  stats: [
-    { value: 50, suffix: "+", label: "Projects" },
-    { value: 30, suffix: "+", label: "Clients" },
-    { value: 3, suffix: "+", label: "Years" }
-  ],
-
-  /* ── Testimonials ── */
-  testimonials: [
-    { quote: "AgniGrow transformed our online presence completely. Sales went up 40% in the first month!", author: "Rahul K.", role: "Restaurant Owner" },
-    { quote: "Professional, creative, and incredibly fast. They delivered our website in just 5 days.", author: "Priya S.", role: "Boutique Owner" },
-    { quote: "Best digital partner in Vaniyambadi. Their branding work gave our business a whole new identity.", author: "Mohammed A.", role: "Startup Founder" }
-  ]
+  maps: "https://maps.app.goo.gl/haMHd2vKQhq9mvSXA",
+  review: "https://g.page/r/CVggM4_nruFHEBM/review",
+  hours: { open: 9, close: 19, closedDay: 0 }
 };
 /* =============================================== */
 
-/* ── SVG Icons ── */
 const IC = {
   chat:   '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
   phone:  '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',
@@ -577,19 +373,9 @@ const $ = id => document.getElementById(id);
 const digits = s => (s || "").replace(/[^\d+]/g, "");
 const svg = icon => `<svg viewBox="0 0 24 24" aria-hidden="true">${IC[icon]}</svg>`;
 
-/* ═══════════ 1. TIME-BASED GREETING ═══════════ */
+/* ── Typing animation ── */
 (function () {
-  const hr = new Date().getHours();
-  let g = "Good evening";
-  if (hr >= 5 && hr < 12) g = "Good morning";
-  else if (hr >= 12 && hr < 17) g = "Good afternoon";
-  $("greeting").innerHTML = `<span class="wave">👋</span> ${g}, welcome to`;
-})();
-
-/* ═══════════ 2. TYPING ANIMATION ═══════════ */
-(function () {
-  const el = $("tagline");
-  const text = BIZ.tagline;
+  const el = $("tagline"), text = BIZ.tagline;
   let i = 0;
   function type() {
     if (i <= text.length) {
@@ -601,7 +387,7 @@ const svg = icon => `<svg viewBox="0 0 24 24" aria-hidden="true">${IC[icon]}</sv
   setTimeout(type, 900);
 })();
 
-/* ═══════════ POPULATE CONTENT ═══════════ */
+/* ── Populate ── */
 $("locText").textContent = BIZ.place;
 $("foot").textContent = "© " + new Date().getFullYear() + " " + BIZ.name + ", " + BIZ.place;
 
@@ -609,10 +395,13 @@ $("foot").textContent = "© " + new Date().getFullYear() + " " + BIZ.name + ", "
 $("main-actions").innerHTML = `
   <a class="cta-wa" href="https://wa.me/${digits(BIZ.whatsapp)}?text=${encodeURIComponent(BIZ.whatsappMessage)}" target="_blank" rel="noopener">
     <span class="cta-icon">${svg("chat")}</span>
-    <span>Chat on WhatsApp<small>Fastest way to get a reply</small></span>
+    <span>Chat on WhatsApp
+      </br>
+          <small>Fastest way to get a reply
+    </small></span>
   </a>`;
 
-/* ── Bento grid with copy hints ── */
+/* ── Bento grid ── */
 let bento = "";
 bento += `<a class="card" href="tel:${digits(BIZ.phone)}" data-copy="${BIZ.phone}" data-label="Phone number">
   <span class="card-icon">${svg("phone")}</span><span>Call</span>
@@ -632,157 +421,62 @@ if (BIZ.maps) bento += `<a class="card full" href="${BIZ.maps}" target="_blank" 
   <span class="card-icon">${svg("pin")}</span><span>Find us on Google Maps</span></a>`;
 $("bento").innerHTML = bento;
 
-/* ── Social row ── */
+/* ── Socials ── */
 $("social").innerHTML = `
   <a class="social-card" href="${BIZ.instagram || '#'}" ${BIZ.instagram ? 'target="_blank" rel="noopener"' : ''}>
     <span class="s-icon">${svg("insta")}</span>Instagram</a>
   <a class="social-card" href="${BIZ.linkedin || '#'}" ${BIZ.linkedin ? 'target="_blank" rel="noopener"' : ''}>
     <span class="s-icon">${svg("linked")}</span>LinkedIn</a>`;
 
-/* ═══════════ 3. SERVICES SECTION ═══════════ */
-(function () {
-  let html = "";
-  for (const s of BIZ.services) {
-    if (s.featured) {
-      html += `<div class="service-card featured">
-        <span class="s-emoji">${s.emoji}</span>
-        <div><div class="s-name">${s.name}</div><div class="s-desc">${s.desc}</div></div></div>`;
-    } else {
-      html += `<div class="service-card">
-        <span class="s-emoji">${s.emoji}</span>
-        <div class="s-name">${s.name}</div><div class="s-desc">${s.desc}</div></div>`;
-    }
-  }
-  $("services").innerHTML = html;
-})();
-
-/* ═══════════ 4. ANIMATED STATS COUNTER ═══════════ */
-(function () {
-  let html = "";
-  for (const s of BIZ.stats) {
-    html += `<div class="stat">
-      <div class="stat-num" data-target="${s.value}" data-suffix="${s.suffix}">0${s.suffix}</div>
-      <div class="stat-label">${s.label}</div></div>`;
-  }
-  $("stats").innerHTML = html;
-})();
-function animateCounters() {
-  document.querySelectorAll(".stat-num").forEach(el => {
-    if (el.dataset.counted) return;
-    const target = +el.dataset.target;
-    const suffix = el.dataset.suffix;
-    const duration = 1800;
-    const start = performance.now();
-    function step(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.floor(eased * target) + suffix;
-      if (progress < 1) requestAnimationFrame(step);
-      else el.dataset.counted = "1";
-    }
-    requestAnimationFrame(step);
-  });
-}
-
-/* ═══════════ 5. TESTIMONIAL CAROUSEL ═══════════ */
-(function () {
-  const t = BIZ.testimonials;
-  let html = "";
-  let dots = "";
-  for (let i = 0; i < t.length; i++) {
-    html += `<div class="testimonial-slide ${i === 0 ? 'active' : ''}" data-idx="${i}">
-      <div class="t-quote">${t[i].quote}</div>
-      <div class="t-author">${t[i].author} · <span>${t[i].role}</span></div></div>`;
-    dots += `<button data-idx="${i}" class="${i === 0 ? 'active' : ''}" aria-label="Testimonial ${i + 1}"></button>`;
-  }
-  $("testimonials").innerHTML = html;
-  $("dots").innerHTML = dots;
-
-  let current = 0;
-  const slides = document.querySelectorAll(".testimonial-slide");
-  const dotBtns = document.querySelectorAll(".testimonial-dots button");
-
-  function goTo(idx) {
-    slides[current].classList.remove("active");
-    dotBtns[current].classList.remove("active");
-    current = idx;
-    slides[current].classList.add("active");
-    dotBtns[current].classList.add("active");
-  }
-  dotBtns.forEach(d => d.addEventListener("click", () => goTo(+d.dataset.idx)));
-
-  /* Auto-rotate every 5s */
-  setInterval(() => goTo((current + 1) % t.length), 5000);
-})();
-
-/* ═══════════ 6. OPEN / CLOSED STATUS ═══════════ */
+/* ── Open / Closed status ── */
 (function () {
   const p = new Intl.DateTimeFormat("en-IN", {
     timeZone: "Asia/Kolkata", hour: "numeric", hour12: false, weekday: "short"
   }).formatToParts(new Date());
   const hr = +p.find(x => x.type === "hour").value % 24;
   const wd = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(p.find(x => x.type === "weekday").value);
-  const h = BIZ.hours;
-  const open = wd !== h.closedDay && hr >= h.open && hr < h.close;
+  const h = BIZ.hours, open = wd !== h.closedDay && hr >= h.open && hr < h.close;
   $("status").classList.toggle("open", open);
   $("statusText").textContent = open
     ? "Open now · closes at 7 PM"
-    : (wd === h.closedDay
-        ? "Closed today (Sunday). We reply Monday."
-        : "Closed now · Open 9 AM – 7 PM, Mon – Sat");
+    : (wd === h.closedDay ? "Closed today (Sunday). We reply Monday." : "Closed now · Open 9 AM – 7 PM, Mon – Sat");
 })();
 
-/* ═══════════ 7. COPY TO CLIPBOARD ═══════════ */
+/* ── Toast ── */
 function showToast(msg) {
-  const t = $("toast");
-  t.textContent = msg;
-  t.classList.add("show");
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
   setTimeout(() => t.classList.remove("show"), 2200);
 }
+
+/* ── Copy to clipboard (long-press / right-click) ── */
 document.querySelectorAll("[data-copy]").forEach(el => {
   el.addEventListener("contextmenu", e => {
     e.preventDefault();
-    navigator.clipboard.writeText(el.dataset.copy).then(() => {
-      showToast("✓ " + el.dataset.label + " copied!");
-    });
+    navigator.clipboard.writeText(el.dataset.copy).then(() => showToast("✓ " + el.dataset.label + " copied!"));
   });
-  /* Long press for mobile */
   let timer;
   el.addEventListener("touchstart", () => {
     timer = setTimeout(() => {
-      navigator.clipboard.writeText(el.dataset.copy).then(() => {
-        showToast("✓ " + el.dataset.label + " copied!");
-      });
+      navigator.clipboard.writeText(el.dataset.copy).then(() => showToast("✓ " + el.dataset.label + " copied!"));
     }, 600);
   }, { passive: true });
   el.addEventListener("touchend", () => clearTimeout(timer));
   el.addEventListener("touchmove", () => clearTimeout(timer));
 });
 
-/* ═══════════ 8. SHARE BUTTON ═══════════ */
+/* ── Share ── */
 $("share").addEventListener("click", async () => {
-  const shareData = {
-    title: BIZ.name + " – " + BIZ.tagline,
-    text: `Check out ${BIZ.name}, ${BIZ.place}. ${BIZ.tagline}.`,
-    url: window.location.href
-  };
-  if (navigator.share) {
-    try { await navigator.share(shareData); } catch {}
-  } else {
-    await navigator.clipboard.writeText(window.location.href);
-    showToast("✓ Link copied to clipboard!");
-  }
+  const shareData = { title: BIZ.name + " – " + BIZ.tagline,
+    text: `Check out ${BIZ.name}, ${BIZ.place}. ${BIZ.tagline}.`, url: window.location.href };
+  if (navigator.share) { try { await navigator.share(shareData); } catch {} }
+  else { await navigator.clipboard.writeText(window.location.href); showToast("✓ Link copied to clipboard!"); }
 });
 
-/* ═══════════ 9. SAVE VCARD ═══════════ */
+/* ── Save vCard ── */
 $("save").addEventListener("click", () => {
-  const v = [
-    "BEGIN:VCARD", "VERSION:3.0",
-    `FN:${BIZ.name}`, `ORG:${BIZ.name}`, `TITLE:${BIZ.tagline}`,
-    `TEL;TYPE=WORK,VOICE:${digits(BIZ.phone)}`,
-    `EMAIL:${BIZ.email}`, `URL:${BIZ.website}`,
-    `ADR;TYPE=WORK:;;${BIZ.place};;;;India`, "END:VCARD"
-  ].join("\r\n");
+  const v = ["BEGIN:VCARD","VERSION:3.0",`FN:${BIZ.name}`,`ORG:${BIZ.name}`,`TITLE:${BIZ.tagline}`,
+    `TEL;TYPE=WORK,VOICE:${digits(BIZ.phone)}`,`EMAIL:${BIZ.email}`,`URL:${BIZ.website}`,
+    `ADR;TYPE=WORK:;;${BIZ.place};;;;India`,"END:VCARD"].join("\r\n");
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([v], { type: "text/vcard" }));
   a.download = "AgniGrow.vcf";
@@ -790,31 +484,13 @@ $("save").addEventListener("click", () => {
   showToast("✓ Contact file downloading!");
 });
 
-/* ═══════════ 10. SCROLL REVEAL & PROGRESS ═══════════ */
-const reveals = document.querySelectorAll(".reveal");
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add("visible");
-      /* Trigger counter animation when stats become visible */
-      if (e.target.id === "stats-section") animateCounters();
-    }
-  });
-}, { threshold: 0.15 });
-reveals.forEach(el => revealObserver.observe(el));
-
-/* Scroll progress bar */
+/* ── Back to top ── */
 window.addEventListener("scroll", () => {
-  const max = document.documentElement.scrollHeight - window.innerHeight;
-  const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-  $("scrollBar").style.width = pct + "%";
-  /* Back to top visibility */
   $("backTop").classList.toggle("visible", window.scrollY > 400);
 }, { passive: true });
-
 $("backTop").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-/* ═══════════ 3D TILT ═══════════ */
+/* ── 3D tilt ── */
 (function () {
   const st = $("stage");
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -827,63 +503,45 @@ $("backTop").addEventListener("click", () => window.scrollTo({ top: 0, behavior:
   }, { passive: true });
   addEventListener("deviceorientation", e => {
     if (e.gamma == null) return;
-    apply(Math.max(-14, Math.min(14, (e.beta - 50) * -.35)),
-          Math.max(-18, Math.min(18, e.gamma * .5)));
+    apply(Math.max(-14, Math.min(14, (e.beta - 50) * -.35)), Math.max(-18, Math.min(18, e.gamma * .5)));
   }, { passive: true });
 })();
 
-/* ═══════════ LIGHT-FOLLOW ON CARDS ═══════════ */
+/* ── Light-follow on cards ── */
 window.burst = () => {};
 document.querySelectorAll(".card, .social-card").forEach(c => {
-  const move = e => {
-    const r = c.getBoundingClientRect();
-    c.style.setProperty("--mx", (e.clientX - r.left) + "px");
-    c.style.setProperty("--my", (e.clientY - r.top) + "px");
-  };
+  const move = e => { const r = c.getBoundingClientRect();
+    c.style.setProperty("--mx", (e.clientX - r.left) + "px"); c.style.setProperty("--my", (e.clientY - r.top) + "px"); };
   c.addEventListener("pointermove", move);
-  c.addEventListener("pointerdown", e => {
-    move(e); window.burst(e.clientX, e.clientY);
-    if (navigator.vibrate) navigator.vibrate(10);
-  });
+  c.addEventListener("pointerdown", e => { move(e); window.burst(e.clientX, e.clientY); if (navigator.vibrate) navigator.vibrate(10); });
 });
 
-/* ═══════════ RISING EMBERS ═══════════ */
+/* ── Rising embers ── */
 (function () {
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const c = $("embers"), ctx = c.getContext("2d");
   let w, h, dpr = Math.min(devicePixelRatio || 1, 2), P = [];
   const size = () => { w = innerWidth; h = innerHeight; c.width = w * dpr; c.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
-  const mk = (fresh) => ({
-    x: Math.random() * w, y: fresh ? h + Math.random() * 40 : Math.random() * h,
-    r: .5 + Math.random() * 1.6, vy: .2 + Math.random() * .6,
-    sw: Math.random() * Math.PI * 2, a: .2 + Math.random() * .5,
-    c: Math.random() < .6 ? "255,110,40" : "255,190,60"
-  });
+  const mk = (fresh) => ({ x: Math.random() * w, y: fresh ? h + Math.random() * 40 : Math.random() * h,
+    r: .5 + Math.random() * 1.6, vy: .2 + Math.random() * .6, sw: Math.random() * Math.PI * 2,
+    a: .2 + Math.random() * .5, c: Math.random() < .6 ? "255,110,40" : "255,190,60" });
   const B = [];
-  window.burst = (bx, by) => {
-    for (let i = 0; i < 22; i++) {
-      const a = Math.random() * 6.2832, v = 1 + Math.random() * 3.2;
-      B.push({ x: bx, y: by, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.2,
-        r: .6 + Math.random() * 1.6, l: 1, c: Math.random() < .5 ? "255,120,40" : "255,200,70" });
-    }
-  };
+  window.burst = (bx, by) => { for (let i = 0; i < 22; i++) { const a = Math.random() * 6.2832, v = 1 + Math.random() * 3.2;
+    B.push({ x: bx, y: by, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.2, r: .6 + Math.random() * 1.6, l: 1,
+      c: Math.random() < .5 ? "255,120,40" : "255,200,70" }); } };
   size(); addEventListener("resize", size);
   for (let i = 0; i < 38; i++) P.push(mk(false));
   (function tick() {
     ctx.clearRect(0, 0, w, h);
-    for (const p of P) {
-      p.y -= p.vy; p.sw += .018; p.x += Math.sin(p.sw) * .3;
+    for (const p of P) { p.y -= p.vy; p.sw += .018; p.x += Math.sin(p.sw) * .3;
       const life = Math.max(0, Math.min(1, p.y / h));
       ctx.beginPath(); ctx.fillStyle = `rgba(${p.c},${p.a * life})`; ctx.shadowColor = `rgba(${p.c},.7)`; ctx.shadowBlur = 6;
       ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill();
-      if (p.y < -10) Object.assign(p, mk(true));
-    }
-    for (let i = B.length - 1; i >= 0; i--) {
-      const q = B[i]; q.x += q.vx; q.y += q.vy; q.vy += .065; q.vx *= .985; q.l -= .014;
+      if (p.y < -10) Object.assign(p, mk(true)); }
+    for (let i = B.length - 1; i >= 0; i--) { const q = B[i]; q.x += q.vx; q.y += q.vy; q.vy += .065; q.vx *= .985; q.l -= .014;
       if (q.l <= 0) { B.splice(i, 1); continue; }
       ctx.beginPath(); ctx.fillStyle = `rgba(${q.c},${q.l})`; ctx.shadowColor = `rgba(${q.c},1)`; ctx.shadowBlur = 8;
-      ctx.arc(q.x, q.y, q.r, 0, 6.2832); ctx.fill();
-    }
+      ctx.arc(q.x, q.y, q.r, 0, 6.2832); ctx.fill(); }
     requestAnimationFrame(tick);
   })();
 })();
