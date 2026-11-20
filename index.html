@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AgniGrow – Your Digital Growth Partner</title>
+<meta name="description" content="AgniGrow, Vaniyambadi. Websites, branding, automation, e-commerce and digital invitations. Message us on WhatsApp.">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="icon" type="image/png" href="logo-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════ DESIGN TOKENS ═══════════ */
+:root {
+  --bg: #07060b;
+  --surface: rgba(255,255,255,.04);
+  --surface-hover: rgba(255,255,255,.08);
+  --border: rgba(255,255,255,.08);
+  --border-hover: rgba(255,120,50,.4);
+  --ember: #ff5a1f;
+  --ember-light: #ff8a4c;
+  --gold: #ffb020;
+  --cream: #f0ebe4;
+  --muted: #8a8090;
+  --wa: #25d366;
+  --radius: 20px;
+  --radius-sm: 14px;
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', var(--font);
+}
+
+/* ═══════════ RESET & BASE ═══════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--cream);
+  font-family: var(--font); line-height: 1.6;
+  min-height: 100dvh; overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
+}
+a { text-decoration: none; color: inherit; }
+
+/* ═══════════ SCROLL PROGRESS BAR ═══════════ */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 100;
+  background: linear-gradient(90deg, var(--ember), var(--gold));
+  width: 0%; transition: width .1s linear;
+  box-shadow: 0 0 10px rgba(255,90,31,.5);
+}
+
+/* ═══════════ AMBIENT BACKGROUND ═══════════ */
+.ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.ambient .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0; animation: orbIn 2s ease-out forwards; }
+.orb-1 { width: 500px; height: 500px; top: -180px; left: 50%; transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(255,90,31,.5), transparent 70%); }
+.orb-2 { width: 350px; height: 350px; bottom: -100px; right: -100px;
+  background: radial-gradient(circle, rgba(255,176,32,.3), transparent 70%); animation-delay: .3s; }
+.orb-3 { width: 300px; height: 300px; bottom: 20%; left: -120px;
+  background: radial-gradient(circle, rgba(255,90,31,.2), transparent 70%); animation-delay: .6s; }
+@keyframes orbIn { to { opacity: 1; } }
+.orb-1 { animation: orbIn 2s ease-out forwards, drift1 20s ease-in-out infinite alternate 2s; }
+.orb-2 { animation: orbIn 2s .3s ease-out forwards, drift2 25s ease-in-out infinite alternate 2.3s; }
+.orb-3 { animation: orbIn 2s .6s ease-out forwards, drift3 18s ease-in-out infinite alternate 2.6s; }
+@keyframes drift1 { from { transform: translateX(-50%) translate(0,0); } to { transform: translateX(-50%) translate(40px,30px); } }
+@keyframes drift2 { from { transform: translate(0,0); } to { transform: translate(-30px,-40px); } }
+@keyframes drift3 { from { transform: translate(0,0); } to { transform: translate(30px,-20px); } }
+.grain { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .035;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+
+/* ═══════════ LAYOUT ═══════════ */
+main { position: relative; z-index: 3; max-width: 440px; margin: 0 auto; padding: 36px 16px 52px; }
+
+/* ═══════════ SCROLL REVEAL ═══════════ */
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══════════ GREETING ═══════════ */
+.greeting {
+  text-align: center; font-size: .82rem; color: var(--muted);
+  margin-bottom: 6px; letter-spacing: .02em;
+  opacity: 0; animation: fadeSlideUp .7s ease .1s forwards;
+}
+.greeting .wave { display: inline-block; animation: wave 2.5s ease-in-out infinite; transform-origin: 70% 70%; }
+@keyframes wave {
+  0%   { transform: rotate(0); }
+  10%  { transform: rotate(14deg); }
+  20%  { transform: rotate(-8deg); }
+  30%  { transform: rotate(14deg); }
+  40%  { transform: rotate(-4deg); }
+  50%  { transform: rotate(10deg); }
+  60%,100% { transform: rotate(0); }
+}
+
+/* ═══════════ HERO ═══════════ */
+.hero-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 8px; }
+.logo-container { position: relative; width: 130px; height: 130px; display: grid; place-items: center; }
+.logo-ring {
+  position: absolute; inset: -4px; border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0%, var(--ember) 25%, var(--gold) 50%, transparent 75%);
+  animation: spin 5s linear infinite; opacity: .8;
+}
+.logo-ring::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--bg); }
+.logo-disc {
+  position: absolute; inset: 6px; border-radius: 50%;
+  background: radial-gradient(circle at 50% 38%, #1a0f08, var(--bg) 75%);
+  box-shadow: 0 0 50px rgba(255,90,31,.3), inset 0 0 25px rgba(255,90,31,.15); z-index: 1;
+}
+.logo-img { position: relative; z-index: 2; width: 72px; height: auto;
+  filter: drop-shadow(0 0 18px rgba(255,90,31,.5)); animation: pulse 3s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+.wordmark { margin-top: 16px; width: min(75%, 280px); }
+.wordmark img { display: block; width: 100%; height: auto; animation: fadeSlideUp .9s cubic-bezier(.16,1,.3,1) .3s both; }
+
+/* Typing tagline */
+.tagline {
+  font-family: var(--font-display); font-size: 1rem; font-weight: 500;
+  text-align: center; margin-top: 10px; letter-spacing: .01em; min-height: 1.6em;
+  opacity: 0; animation: fadeSlideUp .7s ease .5s forwards;
+}
+.tagline .cursor {
+  display: inline-block; width: 2px; height: 1.1em; background: var(--ember);
+  margin-left: 2px; vertical-align: text-bottom;
+  animation: blink .7s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.tagline-line {
+  display: block; width: 48px; height: 2.5px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--ember), var(--gold));
+  margin: 10px auto 0;
+}
+.location {
+  display: flex; align-items: center; gap: 5px;
+  font-size: .85rem; color: var(--muted); margin-top: 10px;
+  opacity: 0; animation: fadeSlideUp .7s ease .6s forwards;
+}
+.location svg { width: 14px; height: 14px; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Status pill */
+.status-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 14px; padding: 7px 16px; border-radius: 999px; font-size: .82rem;
+  background: var(--surface); border: 1px solid var(--border);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: var(--muted);
+  opacity: 0; animation: fadeSlideUp .7s ease .7s forwards;
+}
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #6b6075; flex-shrink: 0; }
+.status-pill.open { color: var(--cream); }
+.status-pill.open .status-dot {
+  background: var(--wa);
+  box-shadow: 0 0 0 0 rgba(37,211,102,.5);
+  animation: livePulse 2s ease-out infinite;
+}
+@keyframes livePulse { 0% { box-shadow: 0 0 0 0 rgba(37,211,102,.5); } 100% { box-shadow: 0 0 0 10px rgba(37,211,102,0); } }
+
+/* ═══════════ ACTIONS ═══════════ */
+.actions {
+  margin-top: 22px; display: flex; flex-direction: column; gap: 10px;
+  opacity: 0; animation: fadeSlideUp .7s ease .85s forwards;
+}
+.cta-wa {
+  position: relative; display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px; min-height: 68px; border-radius: var(--radius); overflow: hidden;
+  background: linear-gradient(135deg, #25d366, #20bd5a);
+  color: #052e16; font-weight: 700; font-size: 1.08rem;
+  transition: transform .2s, box-shadow .2s; cursor: pointer;
+}
+.cta-wa:hover { transform: translateY(-2px); box-shadow: 0 12px 36px -8px rgba(37,211,102,.45); }
+.cta-wa:active { transform: scale(.98); }
+.cta-wa .cta-icon {
+  flex-shrink: 0; width: 44px; height: 44px; border-radius: 14px;
+  background: rgba(5,46,22,.12); display: grid; place-items: center;
+}
+.cta-wa .cta-icon svg { width: 24px; height: 24px; fill: none; stroke: #052e16; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.cta-wa small { font-weight: 400; color: #0b5a40; font-size: .8rem; }
+.cta-wa::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 50px; left: -80px;
+  transform: skewX(-20deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+  animation: sweep 5s ease-in-out 1.5s infinite;
+}
+@keyframes sweep { 0% { left: -80px; } 30%,100% { left: 110%; } }
+
+/* ═══════════ BENTO GRID ═══════════ */
+.bento {
+  margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  opacity: 0; animation: fadeSlideUp .7s ease .95s forwards;
+}
+.card {
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; border-radius: var(--radius-sm);
+  background: var(--surface); border: 1px solid var(--border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  font-weight: 600; font-size: .92rem;
+  transition: transform .2s, border-color .25s, background .25s, box-shadow .25s;
+  cursor: pointer;
+}
+.card::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .25s;
+  background: radial-gradient(160px circle at var(--mx,50%) var(--my,50%), rgba(255,120,50,.22), transparent 70%);
+}
+.card:hover::before { opacity: 1; }
+.card:hover {
+  border-color: var(--border-hover); background: var(--surface-hover);
+  box-shadow: 0 8px 28px -8px rgba(255,90,31,.3); transform: translateY(-2px);
+}
+.card:active { transform: scale(.97); }
+.card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.card .card-icon {
+  flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: linear-gradient(145deg, rgba(255,90,31,.22), rgba(255,176,32,.1));
+  border: 1px solid rgba(255,120,50,.18);
+}
+.card .card-icon svg { width: 18px; height: 18px; fill: none; stroke: var(--gold); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.card small { display: block; font-weight: 400; color: var(--muted); font-size: .78rem; margin-top: 1px; }
+.card.full { grid-column: 1 / -1; }
+.card.review-card { border-color: rgba(255,176,32,.35); }
+.card.review-card .card-icon { background: rgba(255,176,32,.18); }
+.card.review-card:hover { border-color: rgba(255,176,32,.6); box-shadow: 0 8px 28px -8px rgba(255,176,32,.25); }
+
+/* ── Copy tooltip ── */
+.card .copy-hint {
+  position: absolute; right: 14px; font-size: .72rem; font-weight: 500;
+  color: var(--muted); opacity: 0; transition: opacity .2s;
+  display: flex; align-items: center; gap: 4px;
+}
+.card .copy-hint svg { width: 12px; height: 12px; stroke: var(--muted); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.card:hover .copy-hint { opacity: 1; }
+
+/* ═══════════ SERVICES SECTION ═══════════ */
+.section-label {
+  font-family: var(--font-display); font-size: .72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .12em; color: var(--muted);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+.services-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.service-card {
+  padding: 16px; border-radius: var(--radius-sm);
+  background: var(--surface); border: 1px solid var(--border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  transition: transform .2s, border-color .25s, background .25s, box-shadow .25s;
+}
+.service-card:hover {
+  border-color: var(--border-hover); background: var(--surface-hover);
+  transform: translateY(-2px); box-shadow: 0 8px 28px -8px rgba(255,90,31,.2);
+}
+.service-card .s-emoji { font-size: 1.5rem; margin-bottom: 8px; display: block; }
+.service-card .s-name { font-weight: 700; font-size: .88rem; margin-bottom: 2px; }
+.service-card .s-desc { font-size: .76rem; color: var(--muted); line-height: 1.45; }
+/* featured (full width) */
+.service-card.featured {
+  grid-column: 1 / -1; display: flex; align-items: center; gap: 14px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, rgba(255,90,31,.08), rgba(255,176,32,.04));
+  border-color: rgba(255,90,31,.2);
+}
+.service-card.featured .s-emoji { font-size: 1.8rem; margin-bottom: 0; }
+
+/* ═══════════ STATS ═══════════ */
+.stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin-top: 10px;
+}
+.stat {
+  text-align: center; padding: 16px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--surface); border: 1px solid var(--border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+}
+.stat .stat-num {
+  font-family: var(--font-display); font-size: 1.5rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--ember), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat .stat-label { font-size: .7rem; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: .06em; }
+
+/* ═══════════ TESTIMONIALS ═══════════ */
+.testimonial-wrap {
+  position: relative; overflow: hidden;
+  padding: 20px; border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(255,90,31,.06), rgba(255,176,32,.03));
+  border: 1px solid rgba(255,90,31,.12);
+  min-height: 120px;
+}
+.testimonial-slide {
+  opacity: 0; transform: translateX(20px);
+  transition: opacity .5s ease, transform .5s ease;
+  position: absolute; inset: 20px;
+}
+.testimonial-slide.active {
+  opacity: 1; transform: translateX(0); position: relative;
+}
+.testimonial-slide .t-quote {
+  font-size: .88rem; font-style: italic; color: var(--cream); line-height: 1.6;
+  margin-bottom: 10px;
+}
+.testimonial-slide .t-quote::before { content: '"'; color: var(--ember); font-size: 1.4rem; font-weight: 800; margin-right: 2px; }
+.testimonial-slide .t-quote::after  { content: '"'; color: var(--ember); font-size: 1.4rem; font-weight: 800; margin-left: 2px; }
+.testimonial-slide .t-author { font-size: .78rem; color: var(--muted); font-weight: 600; }
+.testimonial-slide .t-author span { color: var(--gold); }
+.testimonial-dots {
+  display: flex; justify-content: center; gap: 6px; margin-top: 12px;
+}
+.testimonial-dots button {
+  width: 7px; height: 7px; border-radius: 50%; border: none;
+  background: rgba(255,255,255,.2); cursor: pointer; padding: 0;
+  transition: background .3s, transform .3s;
+}
+.testimonial-dots button.active {
+  background: var(--ember); transform: scale(1.3);
+}
+
+/* ═══════════ SOCIALS ═══════════ */
+.socials { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.social-card {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; border-radius: var(--radius-sm);
+  background: var(--surface); border: 1px solid var(--border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  font-weight: 600; font-size: .88rem;
+  transition: transform .2s, border-color .25s, background .25s; cursor: pointer;
+}
+.social-card:hover { border-color: var(--border-hover); background: var(--surface-hover); transform: translateY(-2px); }
+.social-card:active { transform: scale(.97); }
+.social-card .s-icon {
+  flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px;
+  display: grid; place-items: center;
+  background: linear-gradient(145deg, rgba(255,90,31,.18), rgba(255,176,32,.08));
+  border: 1px solid rgba(255,120,50,.15);
+}
+.social-card .s-icon svg { width: 16px; height: 16px; fill: none; stroke: var(--gold); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ═══════════ SHARE & SAVE BUTTONS ═══════════ */
+.action-row {
+  margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.action-btn {
+  padding: 13px; display: flex; align-items: center; justify-content: center; gap: 8px;
+  border-radius: var(--radius-sm);
+  background: transparent; border: 1px dashed rgba(255,255,255,.15);
+  color: var(--muted); font: inherit; font-weight: 600; font-size: .84rem; cursor: pointer;
+  transition: border-color .25s, color .25s, background .25s;
+}
+.action-btn svg {
+  width: 17px; height: 17px; fill: none; stroke: var(--muted);
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: stroke .25s;
+}
+.action-btn:hover { border-color: var(--border-hover); color: var(--cream); background: var(--surface); }
+.action-btn:hover svg { stroke: var(--ember-light); }
+.action-btn:active { transform: scale(.97); }
+
+/* ═══════════ TOAST NOTIFICATION ═══════════ */
+.toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
+  padding: 10px 22px; border-radius: 999px; z-index: 200;
+  background: rgba(255,90,31,.95); color: #fff; font-family: var(--font);
+  font-size: .84rem; font-weight: 600; white-space: nowrap;
+  box-shadow: 0 8px 30px rgba(255,90,31,.4);
+  transition: transform .4s cubic-bezier(.16,1,.3,1), opacity .4s;
+  opacity: 0; pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ═══════════ BACK TO TOP ═══════════ */
+.back-top {
+  position: fixed; bottom: 24px; right: 20px; z-index: 50;
+  width: 42px; height: 42px; border-radius: 50%; border: none; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  display: grid; place-items: center;
+  opacity: 0; transform: translateY(16px); pointer-events: none;
+  transition: opacity .3s, transform .3s, background .25s, border-color .25s;
+}
+.back-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.back-top:hover { background: var(--surface-hover); border-color: var(--border-hover); }
+.back-top svg { width: 18px; height: 18px; fill: none; stroke: var(--cream); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ═══════════ FOOTER ═══════════ */
+footer { margin-top: 28px; text-align: center; color: #5a5265; font-size: .76rem; }
+.made-with { margin-top: 4px; font-size: .72rem; color: #3f3850; }
+.made-with span { color: var(--ember); }
+
+/* ═══════════ DIVIDER ═══════════ */
+.divider {
+  width: 100%; height: 1px; margin: 24px 0;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+
+/* ═══════════ ANIMATIONS ═══════════ */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════ A11Y ═══════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0s !important; transition-duration: 0s !important; }
+  .orb-1, .orb-2, .orb-3 { opacity: 1; animation: none !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+@media (min-width: 500px) { main { padding-top: 56px; } }
+</style>
+</head>
+<body>
+
+<!-- Scroll progress bar -->
+<div class="scroll-progress" id="scrollBar"></div>
+
+<!-- Ambient background -->
+<div class="ambient">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+<div class="grain"></div>
+<canvas id="embers" aria-hidden="true"></canvas>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Back to top -->
+<button class="back-top" id="backTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<main>
+  <!-- ─── GREETING ─── -->
+  <p class="greeting" id="greeting"></p>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero-wrap" id="stage">
+    <div class="logo-container">
+      <div class="logo-ring"></div>
+      <div class="logo-disc"></div>
+      <img class="logo-img" src="logo-icon.png" alt="AgniGrow logo" width="360" height="190">
+    </div>
+    <h1 class="wordmark"><img src="logo-wordmark.png" alt="AgniGrow" width="900" height="100"></h1>
+    <p class="tagline" id="tagline"><span class="cursor"></span></p>
+    <span class="tagline-line"></span>
+    <p class="location" id="location">
+      <svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      <span id="locText"></span>
+    </p>
+    <div class="status-pill" id="status">
+      <span class="status-dot"></span>
+      <span id="statusText"></span>
+    </div>
+  </section>
+
+  <!-- ─── MAIN CTA ─── -->
+  <div class="actions" id="main-actions"></div>
+
+  <!-- ─── BENTO GRID ─── -->
+  <div class="bento" id="bento"></div>
+
+  <!-- ─── SOCIALS ─── -->
+  <div class="socials" id="social"></div>
+
+  <div class="divider"></div>
+
+  <!-- ─── SERVICES ─── -->
+  <section class="reveal" id="services-section">
+    <div class="section-label">What We Do</div>
+    <div class="services-grid" id="services"></div>
+  </section>
+
+  <div class="divider reveal"></div>
+
+  <!-- ─── STATS ─── -->
+  <section class="reveal" id="stats-section">
+    <div class="section-label">Our Impact</div>
+    <div class="stats-row" id="stats"></div>
+  </section>
+
+  <div class="divider reveal"></div>
+
+  <!-- ─── TESTIMONIALS ─── -->
+  <section class="reveal" id="testimonials-section">
+    <div class="section-label">Client Love</div>
+    <div class="testimonial-wrap" id="testimonials"></div>
+    <div class="testimonial-dots" id="dots"></div>
+  </section>
+
+  <div class="divider reveal"></div>
+
+  <!-- ─── SHARE & SAVE ─── -->
+  <div class="action-row reveal">
+    <button class="action-btn" id="share" type="button">
+      <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      Share
+    </button>
+    <button class="action-btn" id="save" type="button">
+      <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Save Contact
+    </button>
+  </div>
+
+  <footer id="foot" class="reveal"></footer>
+  <p class="made-with reveal">Built with <span>🔥</span> by AgniGrow</p>
+</main>
+
+<script>
+/* ============ EDIT ONLY THIS BLOCK ============ */
+const BIZ = {
+  name: "AgniGrow",
+  tagline: "Your Digital Growth Partner",
+  place: "Vaniyambadi, Tamil Nadu",
+  phone: "+917200146914",
+  whatsapp: "917200146914",
+  whatsappMessage: "Hi AgniGrow, I saw your card and want to know more.",
+  email: "info@agnigrow.in",
+  website: "https://agnigrow.in",
+  instagram: "",
+  linkedin: "",
+  facebook: "",
+  youtube: "",
+  maps: "",
+  review: "",
+  hours: { open: 9, close: 19, closedDay: 0 },
+
+  /* ── Services (emoji, name, description) ── */
+  services: [
+    { emoji: "🌐", name: "Web Development", desc: "Modern, responsive websites that convert visitors into customers", featured: true },
+    { emoji: "🎨", name: "Branding", desc: "Logos, identity & visual design" },
+    { emoji: "⚡", name: "Automation", desc: "Streamline your workflows" },
+    { emoji: "🛒", name: "E-Commerce", desc: "Online stores that sell 24/7" },
+    { emoji: "💌", name: "Digital Invitations", desc: "Beautiful e-invites for every occasion" },
+    { emoji: "📱", name: "Social Media", desc: "Content & strategy that grows" }
+  ],
+
+  /* ── Stats ── */
+  stats: [
+    { value: 50, suffix: "+", label: "Projects" },
+    { value: 30, suffix: "+", label: "Clients" },
+    { value: 3, suffix: "+", label: "Years" }
+  ],
+
+  /* ── Testimonials ── */
+  testimonials: [
+    { quote: "AgniGrow transformed our online presence completely. Sales went up 40% in the first month!", author: "Rahul K.", role: "Restaurant Owner" },
+    { quote: "Professional, creative, and incredibly fast. They delivered our website in just 5 days.", author: "Priya S.", role: "Boutique Owner" },
+    { quote: "Best digital partner in Vaniyambadi. Their branding work gave our business a whole new identity.", author: "Mohammed A.", role: "Startup Founder" }
+  ]
+};
+/* =============================================== */
+
+/* ── SVG Icons ── */
+const IC = {
+  chat:   '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+  phone:  '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',
+  mail:   '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  globe:  '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+  insta:  '<rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17" cy="7" r=".6"/>',
+  fb:     '<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/>',
+  linked: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 11v5M8 8v.01M12 16v-5m0 2c0-2 4-3 4 0v3"/>',
+  yt:     '<rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10 9.5 5 2.5-5 2.5z"/>',
+  pin:    '<path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  star:   '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+  copy:   '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>'
+};
+const $ = id => document.getElementById(id);
+const digits = s => (s || "").replace(/[^\d+]/g, "");
+const svg = icon => `<svg viewBox="0 0 24 24" aria-hidden="true">${IC[icon]}</svg>`;
+
+/* ═══════════ 1. TIME-BASED GREETING ═══════════ */
+(function () {
+  const hr = new Date().getHours();
+  let g = "Good evening";
+  if (hr >= 5 && hr < 12) g = "Good morning";
+  else if (hr >= 12 && hr < 17) g = "Good afternoon";
+  $("greeting").innerHTML = `<span class="wave">👋</span> ${g}, welcome to`;
+})();
+
+/* ═══════════ 2. TYPING ANIMATION ═══════════ */
+(function () {
+  const el = $("tagline");
+  const text = BIZ.tagline;
+  let i = 0;
+  function type() {
+    if (i <= text.length) {
+      el.innerHTML = text.slice(0, i) + '<span class="cursor"></span>';
+      i++;
+      setTimeout(type, 60 + Math.random() * 40);
+    }
+  }
+  setTimeout(type, 900);
+})();
+
+/* ═══════════ POPULATE CONTENT ═══════════ */
+$("locText").textContent = BIZ.place;
+$("foot").textContent = "© " + new Date().getFullYear() + " " + BIZ.name + ", " + BIZ.place;
+
+/* ── WhatsApp CTA ── */
+$("main-actions").innerHTML = `
+  <a class="cta-wa" href="https://wa.me/${digits(BIZ.whatsapp)}?text=${encodeURIComponent(BIZ.whatsappMessage)}" target="_blank" rel="noopener">
+    <span class="cta-icon">${svg("chat")}</span>
+    <span>Chat on WhatsApp<small>Fastest way to get a reply</small></span>
+  </a>`;
+
+/* ── Bento grid with copy hints ── */
+let bento = "";
+bento += `<a class="card" href="tel:${digits(BIZ.phone)}" data-copy="${BIZ.phone}" data-label="Phone number">
+  <span class="card-icon">${svg("phone")}</span><span>Call</span>
+  <span class="copy-hint">${svg("copy")} Copy</span></a>`;
+bento += `<a class="card" href="mailto:${BIZ.email}" data-copy="${BIZ.email}" data-label="Email">
+  <span class="card-icon">${svg("mail")}</span><span>Email</span>
+  <span class="copy-hint">${svg("copy")} Copy</span></a>`;
+if (BIZ.review) bento += `<a class="card full review-card" href="${BIZ.review}" target="_blank" rel="noopener">
+  <span class="card-icon">${svg("star")}</span><span>Leave a Google Review</span></a>`;
+if (BIZ.website) bento += `<a class="card full" href="${BIZ.website}" target="_blank" rel="noopener">
+  <span class="card-icon">${svg("globe")}</span><span>Visit Website<small>${BIZ.website.replace("https://","")}</small></span></a>`;
+if (BIZ.facebook) bento += `<a class="card full" href="${BIZ.facebook}" target="_blank" rel="noopener">
+  <span class="card-icon">${svg("fb")}</span><span>Facebook</span></a>`;
+if (BIZ.youtube) bento += `<a class="card full" href="${BIZ.youtube}" target="_blank" rel="noopener">
+  <span class="card-icon">${svg("yt")}</span><span>YouTube</span></a>`;
+if (BIZ.maps) bento += `<a class="card full" href="${BIZ.maps}" target="_blank" rel="noopener">
+  <span class="card-icon">${svg("pin")}</span><span>Find us on Google Maps</span></a>`;
+$("bento").innerHTML = bento;
+
+/* ── Social row ── */
+$("social").innerHTML = `
+  <a class="social-card" href="${BIZ.instagram || '#'}" ${BIZ.instagram ? 'target="_blank" rel="noopener"' : ''}>
+    <span class="s-icon">${svg("insta")}</span>Instagram</a>
+  <a class="social-card" href="${BIZ.linkedin || '#'}" ${BIZ.linkedin ? 'target="_blank" rel="noopener"' : ''}>
+    <span class="s-icon">${svg("linked")}</span>LinkedIn</a>`;
+
+/* ═══════════ 3. SERVICES SECTION ═══════════ */
+(function () {
+  let html = "";
+  for (const s of BIZ.services) {
+    if (s.featured) {
+      html += `<div class="service-card featured">
+        <span class="s-emoji">${s.emoji}</span>
+        <div><div class="s-name">${s.name}</div><div class="s-desc">${s.desc}</div></div></div>`;
+    } else {
+      html += `<div class="service-card">
+        <span class="s-emoji">${s.emoji}</span>
+        <div class="s-name">${s.name}</div><div class="s-desc">${s.desc}</div></div>`;
+    }
+  }
+  $("services").innerHTML = html;
+})();
+
+/* ═══════════ 4. ANIMATED STATS COUNTER ═══════════ */
+(function () {
+  let html = "";
+  for (const s of BIZ.stats) {
+    html += `<div class="stat">
+      <div class="stat-num" data-target="${s.value}" data-suffix="${s.suffix}">0${s.suffix}</div>
+      <div class="stat-label">${s.label}</div></div>`;
+  }
+  $("stats").innerHTML = html;
+})();
+function animateCounters() {
+  document.querySelectorAll(".stat-num").forEach(el => {
+    if (el.dataset.counted) return;
+    const target = +el.dataset.target;
+    const suffix = el.dataset.suffix;
+    const duration = 1800;
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.dataset.counted = "1";
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+/* ═══════════ 5. TESTIMONIAL CAROUSEL ═══════════ */
+(function () {
+  const t = BIZ.testimonials;
+  let html = "";
+  let dots = "";
+  for (let i = 0; i < t.length; i++) {
+    html += `<div class="testimonial-slide ${i === 0 ? 'active' : ''}" data-idx="${i}">
+      <div class="t-quote">${t[i].quote}</div>
+      <div class="t-author">${t[i].author} · <span>${t[i].role}</span></div></div>`;
+    dots += `<button data-idx="${i}" class="${i === 0 ? 'active' : ''}" aria-label="Testimonial ${i + 1}"></button>`;
+  }
+  $("testimonials").innerHTML = html;
+  $("dots").innerHTML = dots;
+
+  let current = 0;
+  const slides = document.querySelectorAll(".testimonial-slide");
+  const dotBtns = document.querySelectorAll(".testimonial-dots button");
+
+  function goTo(idx) {
+    slides[current].classList.remove("active");
+    dotBtns[current].classList.remove("active");
+    current = idx;
+    slides[current].classList.add("active");
+    dotBtns[current].classList.add("active");
+  }
+  dotBtns.forEach(d => d.addEventListener("click", () => goTo(+d.dataset.idx)));
+
+  /* Auto-rotate every 5s */
+  setInterval(() => goTo((current + 1) % t.length), 5000);
+})();
+
+/* ═══════════ 6. OPEN / CLOSED STATUS ═══════════ */
+(function () {
+  const p = new Intl.DateTimeFormat("en-IN", {
+    timeZone: "Asia/Kolkata", hour: "numeric", hour12: false, weekday: "short"
+  }).formatToParts(new Date());
+  const hr = +p.find(x => x.type === "hour").value % 24;
+  const wd = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(p.find(x => x.type === "weekday").value);
+  const h = BIZ.hours;
+  const open = wd !== h.closedDay && hr >= h.open && hr < h.close;
+  $("status").classList.toggle("open", open);
+  $("statusText").textContent = open
+    ? "Open now · closes at 7 PM"
+    : (wd === h.closedDay
+        ? "Closed today (Sunday). We reply Monday."
+        : "Closed now · Open 9 AM – 7 PM, Mon – Sat");
+})();
+
+/* ═══════════ 7. COPY TO CLIPBOARD ═══════════ */
+function showToast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2200);
+}
+document.querySelectorAll("[data-copy]").forEach(el => {
+  el.addEventListener("contextmenu", e => {
+    e.preventDefault();
+    navigator.clipboard.writeText(el.dataset.copy).then(() => {
+      showToast("✓ " + el.dataset.label + " copied!");
+    });
+  });
+  /* Long press for mobile */
+  let timer;
+  el.addEventListener("touchstart", () => {
+    timer = setTimeout(() => {
+      navigator.clipboard.writeText(el.dataset.copy).then(() => {
+        showToast("✓ " + el.dataset.label + " copied!");
+      });
+    }, 600);
+  }, { passive: true });
+  el.addEventListener("touchend", () => clearTimeout(timer));
+  el.addEventListener("touchmove", () => clearTimeout(timer));
+});
+
+/* ═══════════ 8. SHARE BUTTON ═══════════ */
+$("share").addEventListener("click", async () => {
+  const shareData = {
+    title: BIZ.name + " – " + BIZ.tagline,
+    text: `Check out ${BIZ.name}, ${BIZ.place}. ${BIZ.tagline}.`,
+    url: window.location.href
+  };
+  if (navigator.share) {
+    try { await navigator.share(shareData); } catch {}
+  } else {
+    await navigator.clipboard.writeText(window.location.href);
+    showToast("✓ Link copied to clipboard!");
+  }
+});
+
+/* ═══════════ 9. SAVE VCARD ═══════════ */
+$("save").addEventListener("click", () => {
+  const v = [
+    "BEGIN:VCARD", "VERSION:3.0",
+    `FN:${BIZ.name}`, `ORG:${BIZ.name}`, `TITLE:${BIZ.tagline}`,
+    `TEL;TYPE=WORK,VOICE:${digits(BIZ.phone)}`,
+    `EMAIL:${BIZ.email}`, `URL:${BIZ.website}`,
+    `ADR;TYPE=WORK:;;${BIZ.place};;;;India`, "END:VCARD"
+  ].join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([v], { type: "text/vcard" }));
+  a.download = "AgniGrow.vcf";
+  document.body.appendChild(a); a.click(); a.remove();
+  showToast("✓ Contact file downloading!");
+});
+
+/* ═══════════ 10. SCROLL REVEAL & PROGRESS ═══════════ */
+const reveals = document.querySelectorAll(".reveal");
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add("visible");
+      /* Trigger counter animation when stats become visible */
+      if (e.target.id === "stats-section") animateCounters();
+    }
+  });
+}, { threshold: 0.15 });
+reveals.forEach(el => revealObserver.observe(el));
+
+/* Scroll progress bar */
+window.addEventListener("scroll", () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+  $("scrollBar").style.width = pct + "%";
+  /* Back to top visibility */
+  $("backTop").classList.toggle("visible", window.scrollY > 400);
+}, { passive: true });
+
+$("backTop").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+/* ═══════════ 3D TILT ═══════════ */
+(function () {
+  const st = $("stage");
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const apply = (rx, ry) => {
+    st.style.transition = "transform .12s linear";
+    st.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+  };
+  addEventListener("pointermove", e => {
+    apply(((e.clientY / innerHeight) - .35) * -16, ((e.clientX / innerWidth) - .5) * 22);
+  }, { passive: true });
+  addEventListener("deviceorientation", e => {
+    if (e.gamma == null) return;
+    apply(Math.max(-14, Math.min(14, (e.beta - 50) * -.35)),
+          Math.max(-18, Math.min(18, e.gamma * .5)));
+  }, { passive: true });
+})();
+
+/* ═══════════ LIGHT-FOLLOW ON CARDS ═══════════ */
+window.burst = () => {};
+document.querySelectorAll(".card, .social-card").forEach(c => {
+  const move = e => {
+    const r = c.getBoundingClientRect();
+    c.style.setProperty("--mx", (e.clientX - r.left) + "px");
+    c.style.setProperty("--my", (e.clientY - r.top) + "px");
+  };
+  c.addEventListener("pointermove", move);
+  c.addEventListener("pointerdown", e => {
+    move(e); window.burst(e.clientX, e.clientY);
+    if (navigator.vibrate) navigator.vibrate(10);
+  });
+});
+
+/* ═══════════ RISING EMBERS ═══════════ */
+(function () {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const c = $("embers"), ctx = c.getContext("2d");
+  let w, h, dpr = Math.min(devicePixelRatio || 1, 2), P = [];
+  const size = () => { w = innerWidth; h = innerHeight; c.width = w * dpr; c.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+  const mk = (fresh) => ({
+    x: Math.random() * w, y: fresh ? h + Math.random() * 40 : Math.random() * h,
+    r: .5 + Math.random() * 1.6, vy: .2 + Math.random() * .6,
+    sw: Math.random() * Math.PI * 2, a: .2 + Math.random() * .5,
+    c: Math.random() < .6 ? "255,110,40" : "255,190,60"
+  });
+  const B = [];
+  window.burst = (bx, by) => {
+    for (let i = 0; i < 22; i++) {
+      const a = Math.random() * 6.2832, v = 1 + Math.random() * 3.2;
+      B.push({ x: bx, y: by, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.2,
+        r: .6 + Math.random() * 1.6, l: 1, c: Math.random() < .5 ? "255,120,40" : "255,200,70" });
+    }
+  };
+  size(); addEventListener("resize", size);
+  for (let i = 0; i < 38; i++) P.push(mk(false));
+  (function tick() {
+    ctx.clearRect(0, 0, w, h);
+    for (const p of P) {
+      p.y -= p.vy; p.sw += .018; p.x += Math.sin(p.sw) * .3;
+      const life = Math.max(0, Math.min(1, p.y / h));
+      ctx.beginPath(); ctx.fillStyle = `rgba(${p.c},${p.a * life})`; ctx.shadowColor = `rgba(${p.c},.7)`; ctx.shadowBlur = 6;
+      ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill();
+      if (p.y < -10) Object.assign(p, mk(true));
+    }
+    for (let i = B.length - 1; i >= 0; i--) {
+      const q = B[i]; q.x += q.vx; q.y += q.vy; q.vy += .065; q.vx *= .985; q.l -= .014;
+      if (q.l <= 0) { B.splice(i, 1); continue; }
+      ctx.beginPath(); ctx.fillStyle = `rgba(${q.c},${q.l})`; ctx.shadowColor = `rgba(${q.c},1)`; ctx.shadowBlur = 8;
+      ctx.arc(q.x, q.y, q.r, 0, 6.2832); ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  })();
+})();
+</script>
+</body>
+</html>
